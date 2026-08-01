@@ -1,0 +1,5 @@
+name: weather_agent
+model: gemini-2.5-flash
+description: A helpful weather assistant.
+prompt: prompt.md
+tools: []

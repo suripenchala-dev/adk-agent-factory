@@ -1,10 +1,116 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
 
 [project]
-name="adk-agent-factory"
-version="0.1.0"
-requires-python=">=3.12"
-dependencies=[
- "google-adk>=2.5.0",
- "pydantic>=2.0",
- "pyyaml"
+name = "adk-agent-factory"
+version = "0.1.0"
+description = "A configuration-driven agent generation framework for Google ADK."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Surender Penchala" }
+]
+keywords = [
+    "google-adk",
+    "agents",
+    "agent-factory",
+    "generative-ai",
+    "gemini",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+dependencies = [
+    "google-adk>=2.5.0",
+    "pydantic>=2.11,<3.0",
+    "pyyaml>=6.0.2,<7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.17,<2.0",
+    "pre-commit>=4.2,<5.0",
+    "pytest>=8.4,<9.0",
+    "pytest-cov>=6.2,<7.0",
+    "ruff>=0.12,<1.0",
+    "types-pyyaml>=6.0.12.20250516",
+]
+
+[project.scripts]
+adk-factory = "adk_factory.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/suripenchala-dev/adk-agent-factory"
+Repository = "https://github.com/suripenchala-dev/adk-agent-factory"
+Issues = "https://github.com/suripenchala-dev/adk-agent-factory/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/adk_factory"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests", "examples"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "B",
+    "UP",
+    "SIM",
+    "RUF",
+]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["adk_factory"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["adk_factory"]
+mypy_path = "src"
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = [
+    "--strict-config",
+    "--strict-markers",
+    "--cov=adk_factory",
+    "--cov-report=term-missing",
+    "--cov-fail-under=90",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["adk_factory"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.17,<2.0",
+    "pre-commit>=4.2,<5.0",
+    "pytest>=8.4,<9.0",
+    "pytest-cov>=6.2,<7.0",
+    "ruff>=0.12,<1.0",
+    "types-pyyaml>=6.0.12.20250516",
 ]
